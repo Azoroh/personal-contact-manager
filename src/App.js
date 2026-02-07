@@ -19,14 +19,12 @@ const initialContacts = [
 export default function App() {
   const [contacts, setContacts] = useState(initialContacts);
   const [selected, setSelected] = useState(null);
-  const [showDetails, setShowDetails] = useState(false)
+  const showDetails = selected ? true : false
   const [showAddForm, setShowAddForm] = useState(false)
 
   function handleSelected(contactObj) {
     setSelected(selected => selected?.id === contactObj.id ? null : contactObj);
     console.log(selected)
-
-    setShowDetails(true)
   }
 
   function handleAddContact(newContact) {
@@ -47,7 +45,7 @@ export default function App() {
 
   function handleDelete() {
     setContacts(contacts => contacts.filter(contact => contact.id !== selected.id))
-    setShowDetails(false)
+    setSelected(null)
   }
 
   return (
@@ -76,7 +74,7 @@ export default function App() {
           onCancel={handleShowAddForm}
         />}
 
-        {(selected && !showAddForm) && <ViewDetails
+        {(showDetails && !showAddForm) && <ViewDetails
           selected={selected}
           onDelete={handleDelete}
           onEdit={handleShowAddForm}
